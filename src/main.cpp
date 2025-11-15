@@ -54,43 +54,6 @@ int main(){
     int counter = 0;
     while (true){    
         main.render(h_input);
-        
-        /*if (num_events != 0){
-            std::cout << '\n';
-            ReadConsoleInput(h_input, input_records, 128, &num_read);
-            // std::cout << "Error: " << GetLastError() << '\n';
-            // std::cout << "Size of read buffer: " << num_read << '\n';
-            
-            for(int i = 0; i < num_read; i++){
-    
-                switch (input_records[i].EventType){
-                    case WINDOW_BUFFER_SIZE_EVENT:{
-                        int new_rows = input_records[i].Event.WindowBufferSizeEvent.dwSize.Y;
-                        int new_col = input_records[i].Event.WindowBufferSizeEvent.dwSize.X;
-                        main.resizeTerminal(new_rows, new_col);
-                        // std::cout << "New x: " << input_records[i].Event.WindowBufferSizeEvent.dwSize.X << '\n';
-                        // std::cout << "New y: " << input_records[i].Event.WindowBufferSizeEvent.dwSize.Y << '\n';
-                        break;
-                    }
-    
-                    case KEY_EVENT:
-                        // std::cout << "Ireelevant input \n";
-                        break;
-                    case MOUSE_EVENT:
-                        // std::cout << "Ireelevant input \n";
-                        break; 
-                    case FOCUS_EVENT:
-                        // std::cout << "Ireelevant input \n";
-                        break;  
-                    case MENU_EVENT:  
-                        // std::cout << "Ireelevant input \n";
-                        break;
-    
-                    default:
-                        break;
-                }
-            }
-        }*/
 
 
     }
