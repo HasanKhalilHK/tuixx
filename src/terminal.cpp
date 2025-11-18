@@ -1,5 +1,4 @@
 #include <windows.h>
-#include <wincontypes.h>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -23,8 +22,19 @@ void Terminal::render(){
 
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < col; j++){
-            printf("\x1b[%d;%dH", i+1, j+1); // move cursor to line # and column #
-            std::cout << buffer[i][j];
+            
+            
+            COORD write_coords;
+            write_coords.X = j;
+            write_coords.Y = i;
+            DWORD num_chars_written;
+            const char* write = buffer[i][j].c_str();
+            WriteConsoleOutputCharacter(h_out, write, 1, write_coords, &num_chars_written);
+            
+            
+            //!old
+            // printf("\x1b[%d;%dH", i+1, j+1); // move cursor to line # and column #
+            // std::cout << buffer[i][j];
 
             //check if there is an event to resize terminal
             if (checkForEvents(h_input)){
@@ -33,6 +43,7 @@ void Terminal::render(){
                 for(int i = 0; i < num_read; i++){
                     switch (input_records[i].EventType){
                         case WINDOW_BUFFER_SIZE_EVENT:{
+                             
                             int new_rows = input_records[i].Event.WindowBufferSizeEvent.dwSize.Y;
                             int new_col = input_records[i].Event.WindowBufferSizeEvent.dwSize.X;
                             this->resizeTerminal(new_rows, new_col);
