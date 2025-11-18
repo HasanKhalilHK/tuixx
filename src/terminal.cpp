@@ -5,14 +5,21 @@
 #include <iostream>
 
 #include "terminal.h"
+#include "widget.h"
 
 std::vector<std::vector<std::string>>& Terminal::getBuffer(){
     return buffer;
 }
 
 void Terminal::render(HANDLE h_input){
+
     DWORD num_read;
     INPUT_RECORD input_records[128];
+
+    std::vector<std::vector<std::string>>& buffer = this->getBuffer();
+    for(int i = 0; i < widgets.size(); i++){
+        widgets[i]->render(buffer);
+    }
 
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < col; j++){
@@ -66,5 +73,14 @@ void Terminal::resizeTerminal(int r, int c){
 
 }
 
+void Terminal::addWidget(Widget* widget){
+    widgets.push_back(widget);
+}
 
 Terminal::Terminal(int r, int c) : rows(r), col(c), buffer(r, std::vector<std::string>(c, ".")){}
+
+Terminal::~Terminal() {
+    for (Widget* w : widgets) {
+        delete w;  //free the memory
+    }
+}

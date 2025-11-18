@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "widget.h"
+#include "terminal.h"
 
 std::string Widget::getValue(){
      return this->value;

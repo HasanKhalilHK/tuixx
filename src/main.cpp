@@ -25,13 +25,6 @@ int main(){
     GetConsoleScreenBufferInfo(h, &info);
     int rows = info.dwSize.Y;
     int col = info.dwSize.X;
-    std::cout << rows << " " << col << '\n';
-
-    //30 rows 120 col
-
-
-
-
 
 
     // std::cout << "\033]0;My Custom Title\007";
@@ -39,18 +32,16 @@ int main(){
     Terminal main(rows, col);
     std::vector<std::vector<std::string>>& buffer = main.getBuffer(); // main buffer we are using
 
-    TextBox bold("bold", true, false, 0 ,0);
-    TextBox bold_italic("bold and italic?", true, true, 0 ,1);
-    TextBox italic("italic", false, true, 10 ,0);
+    TextBox* bold = new TextBox("bold", true, false, 0, 0);
+    TextBox* bold_italic = new TextBox("bold and italic?", true, true, 0 ,1);
+    TextBox* italic = new TextBox("italic", false, true, 10 ,0);
     
-    bold.render(buffer);
-    bold_italic.render(buffer);
-    italic.render(buffer);
-    
-    DWORD num_events;
-    DWORD num_read;
-    INPUT_RECORD input_records[128];
-    
+
+    main.addWidget(bold);
+    main.addWidget(bold_italic);
+    main.addWidget(italic);
+
+
     int counter = 0;
     while (true){    
         main.render(h_input);

@@ -4,15 +4,16 @@
 #include <string>
 #include <vector>
 
+
 class Widget{
     private:
         std::string value;
         int x, y;
         bool bold, italic;
+    public:
         virtual std::string getValue();
         virtual void render(std::vector<std::vector<std::string>>& buffer);
 };
-
 class TextBox : public Widget{
     private:
         std::string value;
