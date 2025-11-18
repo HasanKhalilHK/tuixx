@@ -11,7 +11,7 @@ std::vector<std::vector<std::string>>& Terminal::getBuffer(){
     return buffer;
 }
 
-void Terminal::render(HANDLE h_input){
+void Terminal::render(){
 
     DWORD num_read;
     INPUT_RECORD input_records[128];
@@ -77,7 +77,29 @@ void Terminal::addWidget(Widget* widget){
     widgets.push_back(widget);
 }
 
-Terminal::Terminal(int r, int c) : rows(r), col(c), buffer(r, std::vector<std::string>(c, ".")){}
+Terminal::Terminal(){
+    
+    HANDLE h_out = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE h_input = GetStdHandle(STD_INPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    
+    GetConsoleScreenBufferInfo(h_out, &info);
+    SHORT rows = info.dwSize.Y;
+    SHORT col = info.dwSize.X;
+    
+    
+    this->rows = info.dwSize.Y;
+    this->col = info.dwSize.X;
+    this->h_out = h_out;
+    this->h_input = h_input;
+
+    buffer.resize(rows);
+    for (auto& row : buffer) {
+        row.resize(col, ".");
+    }
+
+
+}
 
 Terminal::~Terminal() {
     for (Widget* w : widgets) {

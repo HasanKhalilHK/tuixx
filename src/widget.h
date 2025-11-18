@@ -12,6 +12,7 @@ class Widget{
         bool bold, italic;
     public:
         virtual std::string getValue();
+        
         virtual void render(std::vector<std::vector<std::string>>& buffer);
 };
 class TextBox : public Widget{

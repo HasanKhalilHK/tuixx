@@ -9,8 +9,9 @@ class Widget;
 
 class Terminal{
     private:
-        int rows;
-        int col;
+        HANDLE h_out, h_input;
+        SHORT rows;
+        SHORT col;
         std::vector<std::vector<std::string>> buffer;
         std::vector<Widget*> widgets;
 
@@ -21,9 +22,13 @@ class Terminal{
         void resizeTerminal(int r, int c);
 
         void addWidget(Widget* widget);
-        void render(HANDLE h_input);
+        void render();
 
-        Terminal(int r, int c);
+        
+        std::string getInHandle();
+        std::string getOutHandle();
+
+        Terminal();
         ~Terminal();
 
 };
