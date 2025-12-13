@@ -1,9 +1,9 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#include <windows.h>
 #include <string>
 #include <vector>
-
 
 class Widget{
     private:
@@ -13,12 +13,13 @@ class Widget{
     public:
         virtual std::string getValue();
         
-        virtual void render(std::vector<std::vector<std::string>>& buffer);
+        virtual void render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector);
 };
+
 class TextBox : public Widget{
     private:
         std::string value;
-        int x, y ;
+        int x, y;
         bool bold, italic;
     
     public:
@@ -26,7 +27,7 @@ class TextBox : public Widget{
 
         std::string getValue() override;
 
-        void render(std::vector<std::vector<std::string>>& buffer) override;
+        void render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector) override;
 
         TextBox(std::string value, bool bold, bool italic, int x, int y);
 

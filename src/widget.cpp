@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 
+#include <windows.h>
 #include "widget.h"
 #include "terminal.h"
 
@@ -8,7 +9,7 @@ std::string Widget::getValue(){
      return this->value;
 };
 
-void Widget::render(std::vector<std::vector<std::string>>& buffer){};
+void Widget::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector){};
 
 
 void TextBox::setText(std::string value){
@@ -19,8 +20,9 @@ std::string TextBox::getValue(){
     return this->value;
 }
 
-void TextBox::render(std::vector<std::vector<std::string>>& buffer){
-    std::string value_to_render[value.size()];
+void TextBox::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector){
+    //!old
+    /*std::string value_to_render[value.size()];
     for(int i = 0; i < value.size(); i++){
         std::string v;
         v = value[i];
@@ -31,7 +33,20 @@ void TextBox::render(std::vector<std::vector<std::string>>& buffer){
     
     for(int i = 0; i < value.size(); i++){
         buffer[y][x+i] = value_to_render[i];
+    }*/
+    
+    
+    for (int i = 0; i < value.size(); i++){
+        CHAR_INFO value_to_render;
+        value_to_render.Char.AsciiChar = value[i];
+        value_to_render.Char.UnicodeChar = value[i];
+        value_to_render.Attributes = FOREGROUND_GREEN;
+        // char_buf_vector.push_back(value_to_render);
+        char_buf_vector[y][x+i] = value_to_render;
+
+
     }
+
     
     
 };

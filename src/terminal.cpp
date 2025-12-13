@@ -1,65 +1,64 @@
 #include <windows.h>
 #include <vector>
-#include <string>
 #include <iostream>
 
 #include "terminal.h"
 #include "widget.h"
 
-std::vector<std::vector<std::string>>& Terminal::getBuffer(){
-    return buffer;
-}
 
 void Terminal::render(){
 
-    DWORD num_read;
-    INPUT_RECORD input_records[128];
-
-    std::vector<std::vector<std::string>>& buffer = this->getBuffer();
+    
     for(int i = 0; i < widgets.size(); i++){
-        widgets[i]->render(buffer);
+        widgets[i]->render(char_buf_vec);
     }
+    
+    const int buf_size = rows*col;
+    COORD bufferSize;
+    bufferSize.X = col;
+    bufferSize.Y = rows;
+    COORD bufferCoord;
+    bufferCoord.X = 0;
+    bufferCoord.Y = 0;
+    SMALL_RECT writeRegion;
+    writeRegion.Left = 0;
+    writeRegion.Top = 0;
+    writeRegion.Right = bufferSize.X - 1;
+    writeRegion.Bottom = bufferSize.Y - 1;
+    
+    CHAR_INFO char_buf[buf_size];
+    
 
-    for(int i = 0; i < rows; i++){
-        for(int j = 0; j < col; j++){
-            
-            
-            COORD write_coords;
-            write_coords.X = j;
-            write_coords.Y = i;
-            DWORD num_chars_written;
-            const char* write = buffer[i][j].c_str();
-            WriteConsoleOutputCharacter(h_out, write, 1, write_coords, &num_chars_written);
-            
-            
-            //!old
-            // printf("\x1b[%d;%dH", i+1, j+1); // move cursor to line # and column #
-            // std::cout << buffer[i][j];
-
-            //check if there is an event to resize terminal
-            if (checkForEvents(h_input)){
-                ReadConsoleInput(h_input, input_records, 128, &num_read);
-
-                for(int i = 0; i < num_read; i++){
-                    switch (input_records[i].EventType){
-                        case WINDOW_BUFFER_SIZE_EVENT:{
-                             
-                            int new_rows = input_records[i].Event.WindowBufferSizeEvent.dwSize.Y;
-                            int new_col = input_records[i].Event.WindowBufferSizeEvent.dwSize.X;
-                            this->resizeTerminal(new_rows, new_col);
-                            // std::cout << "New x: " << input_records[i].Event.WindowBufferSizeEvent.dwSize.X << '\n';
-                            // std::cout << "New y: " << input_records[i].Event.WindowBufferSizeEvent.dwSize.Y << '\n';
-                            return;
-                        }
-                    }
-                }
-                
-            }
-
-
-
+    for(int i = 0; i < char_buf_vec.size(); i++){
+        for(int j = 0; j < char_buf_vec[0].size(); j++){
+            char_buf[i*col+j] = char_buf_vec[i][j];
         }
     }
+
+
+    WriteConsoleOutput(h_out, char_buf, bufferSize, bufferCoord, &writeRegion);
+  
+    
+
+    //resize terminal when a resize event is detected
+    DWORD num_read;
+    INPUT_RECORD input_records[128];
+    if (checkForEvents(h_input)){
+        ReadConsoleInput(h_input, input_records, 128, &num_read);
+
+        for(int i = 0; i < num_read; i++){
+            switch (input_records[i].EventType){
+                case WINDOW_BUFFER_SIZE_EVENT:{
+                    int new_rows = input_records[i].Event.WindowBufferSizeEvent.dwSize.Y;
+                    int new_col = input_records[i].Event.WindowBufferSizeEvent.dwSize.X;
+                    this->resizeTerminal(new_rows, new_col);
+                    return;
+                }
+            }
+        }
+                
+    }
+    
 }
 
 
@@ -73,9 +72,19 @@ bool Terminal::checkForEvents(HANDLE h_input){
 void Terminal::resizeTerminal(int r, int c){
     this->rows = r;
     this->col = c;
-    buffer.resize(r);
-    for (auto& row : buffer) {
-        row.resize(c, ".");
+
+    char_buf_vec.clear();
+    for(int i = 0; i < r; i++){
+        std::vector<CHAR_INFO> row;
+        for(int j = 0; j < c; j++){
+            CHAR_INFO placeholder;
+            placeholder.Char.AsciiChar = '*';
+            placeholder.Attributes = FOREGROUND_BLUE;
+            row.push_back(placeholder);
+        }
+        // std::cout << row.size() << '\n';
+        char_buf_vec.push_back(row);
+        row.clear();
     }
 
     //clear terminal and clear scroll buffer respectively
@@ -98,16 +107,17 @@ Terminal::Terminal(){
     SHORT rows = info.dwSize.Y;
     SHORT col = info.dwSize.X;
     
-    
     this->rows = info.dwSize.Y;
     this->col = info.dwSize.X;
     this->h_out = h_out;
     this->h_input = h_input;
 
-    buffer.resize(rows);
-    for (auto& row : buffer) {
-        row.resize(col, ".");
-    }
+    //clear terminal and clear scroll buffer respectively
+    std::cout << "\x1b[2J";
+    std::cout << "\x1b[3J";
+
+    resizeTerminal(rows,col);
+
 
 
 }

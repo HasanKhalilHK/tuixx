@@ -12,13 +12,12 @@ class Terminal{
         HANDLE h_out, h_input;
         SHORT rows;
         SHORT col;
-        std::vector<std::vector<std::string>> buffer;
         std::vector<Widget*> widgets;
+        std::vector<std::vector<CHAR_INFO>> char_buf_vec;
 
         bool checkForEvents(HANDLE h_input);
     
     public:
-        std::vector<std::vector<std::string>>& getBuffer();
         void resizeTerminal(int r, int c);
 
         void addWidget(Widget* widget);
