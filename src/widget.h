@@ -16,7 +16,7 @@ class Widget{
         virtual void render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector);
 };
 
-class TextBox : public Widget{
+class Label : public Widget{
     private:
         std::string value;
         int x, y;
@@ -29,7 +29,7 @@ class TextBox : public Widget{
 
         void render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector) override;
 
-        TextBox(std::string value, bool bold, bool italic, int x, int y);
+        Label(std::string value, bool bold, bool italic, int x, int y);
 
 };
 

@@ -12,15 +12,15 @@ std::string Widget::getValue(){
 void Widget::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector){};
 
 
-void TextBox::setText(std::string value){
+void Label::setText(std::string value){
     this->value = value;
 }
 
-std::string TextBox::getValue(){
+std::string Label::getValue(){
     return this->value;
 }
 
-void TextBox::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector){
+void Label::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector){
     //!old
     /*std::string value_to_render[value.size()];
     for(int i = 0; i < value.size(); i++){
@@ -51,7 +51,7 @@ void TextBox::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector){
     
 };
 
-TextBox::TextBox(std::string value, bool bold, bool italic, int x, int y) { 
+Label::Label(std::string value, bool bold, bool italic, int x, int y) { 
     this->value = value;
     this->bold = bold;
     this->italic = italic;

@@ -10,9 +10,9 @@ int main(){
 
     Terminal mainTerminal;
 
-    TextBox* bold = new TextBox("bold", true, false, 0, 0);
-    TextBox* bold_italic = new TextBox("bold and italic?", true, true, 0 ,1);
-    TextBox* italic = new TextBox("italic", false, true, 10 ,0);
+    Label* bold = new Label("bold", true, false, 0, 0);
+    Label* bold_italic = new Label("bold and italic?", true, true, 0 ,1);
+    Label* italic = new Label("italic", false, true, 10 ,0);
 
     mainTerminal.addWidget(bold);
     mainTerminal.addWidget(bold_italic);
