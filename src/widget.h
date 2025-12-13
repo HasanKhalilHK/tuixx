@@ -45,7 +45,7 @@ class Label : public Widget{
 
         void render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector, int x, int y) override;
 
-        Label(std::string value, bool bold, bool italic, int x, int y, WORD text_colour);
+        Label(std::string value, bool bold, bool italic, WORD text_colour);
 
 };
 

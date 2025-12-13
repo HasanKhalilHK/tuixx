@@ -11,14 +11,14 @@ int main(){
 
     Terminal mainTerminal(FlexDirection::Column);
 
-    Label* label1 = new Label("label1", true, false, 0, 0, RED);
-    Label* label2 = new Label("label 2", true, true, 0 ,1, GREEN);
-    Label* label3 = new Label("label three", false, true, 10 ,0, WHITE);
+    Label* label1 = new Label("label1", true, false, RED);
+    Label* label2 = new Label("label 2", true, true, GREEN);
+    Label* label3 = new Label("label three", false, true, WHITE);
 
     Flex* button_container = new Flex(FlexDirection::Row);
-    Label* b1 = new Label("b1", true, false, 0, 0, RED);
-    Label* b2 = new Label("button 2", true, true, 0 ,1, GREEN);
-    Label* b3 = new Label("butt3", false, true, 10 ,0, WHITE);
+    Label* b1 = new Label("b1", true, false, RED);
+    Label* b2 = new Label("button 2", true, true, GREEN);
+    Label* b3 = new Label("butt3", false, true, WHITE);
     button_container->addWidget(b1);
     button_container->addWidget(b2);
     button_container->addWidget(b3);

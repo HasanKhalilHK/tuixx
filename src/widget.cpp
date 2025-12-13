@@ -55,11 +55,11 @@ void Label::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector, int x, 
     
 };
 
-Label::Label(std::string value, bool bold, bool italic, int x, int y, WORD text_colour) { 
+Label::Label(std::string value, bool bold, bool italic, WORD text_colour) { 
     this->value = value;
     this->bold = bold;
     this->italic = italic;
     this-> text_colour = text_colour;
     int value_size = value.size();
-    this->rect = {x,y,value_size, 1};
+    this->rect = {0,0,value_size, 1};
 }
