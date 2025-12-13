@@ -1,6 +1,7 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
+#include "container.h"
 #include <windows.h>
 #include <vector>
 #include <string>
@@ -9,11 +10,12 @@ class Widget;
 
 class Terminal{
     private:
+        FlexDirection direction;
         HANDLE h_out, h_input;
         SHORT rows;
         SHORT col;
         std::vector<Widget*> widgets;
-        std::vector<std::vector<CHAR_INFO>> char_buf_vec;
+        std::vector<std::vector<CHAR_INFO>> char_buf_vector;
 
         bool checkForEvents(HANDLE h_input);
     
@@ -27,7 +29,7 @@ class Terminal{
         std::string getInHandle();
         std::string getOutHandle();
 
-        Terminal();
+        Terminal(FlexDirection direction);
         ~Terminal();
 
 };

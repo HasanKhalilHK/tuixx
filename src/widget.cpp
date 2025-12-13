@@ -8,19 +8,23 @@
 std::string Widget::getValue(){
      return this->value;
 };
+void Widget::setRect(Rect rect){
+    this->rect = rect;
+};
 
-void Widget::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector){};
+void Widget::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector, int x, int y){};
 
 
 void Label::setText(std::string value){
     this->value = value;
 }
 
+
 std::string Label::getValue(){
     return this->value;
 }
 
-void Label::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector){
+void Label::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector, int x, int y){
     //!old
     /*std::string value_to_render[value.size()];
     for(int i = 0; i < value.size(); i++){
@@ -55,7 +59,7 @@ Label::Label(std::string value, bool bold, bool italic, int x, int y, WORD text_
     this->value = value;
     this->bold = bold;
     this->italic = italic;
-    this->x = x;
-    this->y = y;
     this-> text_colour = text_colour;
+    int value_size = value.size();
+    this->rect = {x,y,value_size, 1};
 }

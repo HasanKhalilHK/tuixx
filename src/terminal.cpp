@@ -8,10 +8,33 @@
 
 void Terminal::render(){
 
-    
-    for(int i = 0; i < widgets.size(); i++){
-        widgets[i]->render(char_buf_vec);
+
+    if (direction == FlexDirection::Row){
+        int x_to_render = 0;
+        int y_to_render = 0;
+            
+        for(int i = 0; i < widgets.size(); i++){
+            // y_to_render += widgets[i]->rect.h;
+            widgets[i]->render(char_buf_vector, x_to_render, y_to_render);
+            x_to_render += widgets[i]->rect.w;
+        
+        }
     }
+
+
+    if (direction == FlexDirection::Column){
+        int x_to_render = 0;
+        int y_to_render = 0;
+        
+        for(int i = 0; i < widgets.size(); i++){
+            // x_to_render += widgets[i]->rect.w;
+            widgets[i]->render(char_buf_vector, x_to_render, y_to_render);
+            y_to_render += widgets[i]->rect.h;
+        
+        }
+
+    }
+
     
     const int buf_size = rows*col;
     COORD bufferSize;
@@ -29,9 +52,9 @@ void Terminal::render(){
     CHAR_INFO char_buf[buf_size];
     
 
-    for(int i = 0; i < char_buf_vec.size(); i++){
-        for(int j = 0; j < char_buf_vec[0].size(); j++){
-            char_buf[i*col+j] = char_buf_vec[i][j];
+    for(int i = 0; i < char_buf_vector.size(); i++){
+        for(int j = 0; j < char_buf_vector[0].size(); j++){
+            char_buf[i*col+j] = char_buf_vector[i][j];
         }
     }
 
@@ -73,7 +96,7 @@ void Terminal::resizeTerminal(int r, int c){
     this->rows = r;
     this->col = c;
 
-    char_buf_vec.clear();
+    char_buf_vector.clear();
     for(int i = 0; i < r; i++){
         std::vector<CHAR_INFO> row;
         for(int j = 0; j < c; j++){
@@ -83,7 +106,7 @@ void Terminal::resizeTerminal(int r, int c){
             row.push_back(placeholder);
         }
         // std::cout << row.size() << '\n';
-        char_buf_vec.push_back(row);
+        char_buf_vector.push_back(row);
         row.clear();
     }
 
@@ -97,7 +120,7 @@ void Terminal::addWidget(Widget* widget){
     widgets.push_back(widget);
 }
 
-Terminal::Terminal(){
+Terminal::Terminal(FlexDirection direction){
     
     HANDLE h_out = GetStdHandle(STD_OUTPUT_HANDLE);
     HANDLE h_input = GetStdHandle(STD_INPUT_HANDLE);
@@ -111,6 +134,7 @@ Terminal::Terminal(){
     this->col = info.dwSize.X;
     this->h_out = h_out;
     this->h_input = h_input;
+    this->direction = direction;
 
     //clear terminal and clear scroll buffer respectively
     std::cout << "\x1b[2J";

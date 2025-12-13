@@ -8,7 +8,7 @@ CXXFLAGS = --target=x86_64-w64-windows-gnu -std=c++17 \
   -IC:/mingw64/include
 
 
-OBJS = src/main.o src/widget.o src/terminal.o
+OBJS = src/main.o src/widget.o src/terminal.o src/container.o
 TARGET = build/main.exe
 
 
@@ -23,6 +23,9 @@ widget.o: src/widget.cpp src/widget.h
 
 terminal.o: src/terminal.cpp src/terminal.h
 	$(CXX) $(CXXFLAGS) -c src/terminal.cpp -o src/terminal.o
+
+container.o: src/container.cpp src/container.h
+	$(CXX) $(CXXFLAGS) -c src/container.cpp -o src/container.o
 
 clean:
 	rm src/*.o build/main.exe

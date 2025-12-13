@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <string>
 
+#include "container.h"
 #include "widget.h"
 #include "terminal.h"
 
@@ -8,15 +9,24 @@ int main(){
     // std::cout << "\x1b[?25l"; // make cursor invisible
     // std::cout << "\033]0;My Custom Title\007";
 
-    Terminal mainTerminal;
+    Terminal mainTerminal(FlexDirection::Column);
 
-    Label* bold = new Label("bold", true, false, 0, 0, RED);
-    Label* bold_italic = new Label("bold and italic?", true, true, 0 ,1, GREEN);
-    Label* italic = new Label("italic", false, true, 10 ,0, WHITE);
+    Label* label1 = new Label("label1", true, false, 0, 0, RED);
+    Label* label2 = new Label("label 2", true, true, 0 ,1, GREEN);
+    Label* label3 = new Label("label three", false, true, 10 ,0, WHITE);
 
-    mainTerminal.addWidget(bold);
-    mainTerminal.addWidget(bold_italic);
-    mainTerminal.addWidget(italic);
+    Flex* button_container = new Flex(FlexDirection::Row);
+    Label* b1 = new Label("b1", true, false, 0, 0, RED);
+    Label* b2 = new Label("button 2", true, true, 0 ,1, GREEN);
+    Label* b3 = new Label("butt3", false, true, 10 ,0, WHITE);
+    button_container->addWidget(b1);
+    button_container->addWidget(b2);
+    button_container->addWidget(b3);
+
+    mainTerminal.addWidget(label1);
+    mainTerminal.addWidget(label2);
+    mainTerminal.addWidget(label3);
+    mainTerminal.addWidget(button_container);
 
 
     while (true){    
