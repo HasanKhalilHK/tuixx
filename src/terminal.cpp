@@ -79,7 +79,7 @@ void Terminal::resizeTerminal(int r, int c){
         for(int j = 0; j < c; j++){
             CHAR_INFO placeholder;
             placeholder.Char.AsciiChar = '*';
-            placeholder.Attributes = FOREGROUND_BLUE;
+            placeholder.Attributes = BLUE;
             row.push_back(placeholder);
         }
         // std::cout << row.size() << '\n';

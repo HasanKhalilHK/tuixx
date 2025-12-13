@@ -40,7 +40,7 @@ void Label::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector){
         CHAR_INFO value_to_render;
         value_to_render.Char.AsciiChar = value[i];
         value_to_render.Char.UnicodeChar = value[i];
-        value_to_render.Attributes = FOREGROUND_GREEN;
+        value_to_render.Attributes = text_colour;
         // char_buf_vector.push_back(value_to_render);
         char_buf_vector[y][x+i] = value_to_render;
 
@@ -51,10 +51,11 @@ void Label::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector){
     
 };
 
-Label::Label(std::string value, bool bold, bool italic, int x, int y) { 
+Label::Label(std::string value, bool bold, bool italic, int x, int y, WORD text_colour) { 
     this->value = value;
     this->bold = bold;
     this->italic = italic;
     this->x = x;
     this->y = y;
+    this-> text_colour = text_colour;
 }

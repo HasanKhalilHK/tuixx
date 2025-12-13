@@ -5,6 +5,11 @@
 #include <string>
 #include <vector>
 
+#define BLUE FOREGROUND_BLUE
+#define GREEN FOREGROUND_GREEN
+#define RED FOREGROUND_RED
+#define WHITE FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE
+
 class Widget{
     private:
         std::string value;
@@ -21,6 +26,7 @@ class Label : public Widget{
         std::string value;
         int x, y;
         bool bold, italic;
+        WORD text_colour;
     
     public:
         void setText(std::string value);
@@ -29,7 +35,7 @@ class Label : public Widget{
 
         void render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector) override;
 
-        Label(std::string value, bool bold, bool italic, int x, int y);
+        Label(std::string value, bool bold, bool italic, int x, int y, WORD text_colour);
 
 };
 
