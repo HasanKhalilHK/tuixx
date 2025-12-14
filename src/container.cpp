@@ -8,7 +8,7 @@ Flex::Flex(FlexDirection direction){
 }
 
 void Flex::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector, int x, int y){
-    if (direction == FlexDirection::Row){
+    if (direction == FlexDirection::Column){
         int x_to_render = x;
         int y_to_render = y;
             
@@ -20,7 +20,7 @@ void Flex::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector, int x, i
         }
     }
 
-    if (direction == FlexDirection::Column){
+    if (direction == FlexDirection::Row){
         int x_to_render = x;
         int y_to_render = y;
         
@@ -37,7 +37,7 @@ void Flex::render(std::vector<std::vector<CHAR_INFO>>& char_buf_vector, int x, i
 void Flex::addWidget(Widget* widget){
     widgets.push_back(widget);
 
-    if (direction == FlexDirection::Row){
+    if (direction == FlexDirection::Column){
         
         int max_height = widgets[0]->rect.h;
         for (Widget* w: widgets){
@@ -48,7 +48,7 @@ void Flex::addWidget(Widget* widget){
         this->rect.h = max_height;
     }
 
-    if (direction == FlexDirection::Column){
+    if (direction == FlexDirection::Row){
         
         int max_width = widgets[0]->rect.w;
         for (Widget* w: widgets){

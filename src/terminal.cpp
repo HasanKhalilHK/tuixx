@@ -9,7 +9,7 @@
 void Terminal::render(){
 
 
-    if (direction == FlexDirection::Row){
+    if (direction == FlexDirection::Column){
         int x_to_render = 0;
         int y_to_render = 0;
             
@@ -22,7 +22,7 @@ void Terminal::render(){
     }
 
 
-    if (direction == FlexDirection::Column){
+    if (direction == FlexDirection::Row){
         int x_to_render = 0;
         int y_to_render = 0;
         
